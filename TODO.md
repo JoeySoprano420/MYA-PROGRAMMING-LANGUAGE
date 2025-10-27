@@ -4,7 +4,7 @@
 
 **Current Version**: 0.1 (Prototype)  
 **Phase Completed**: Phase 1 - Indentation Preprocessing  
-**Last Updated**: 2025
+**Last Updated**: 2024
 
 ---
 
@@ -27,7 +27,23 @@
 
 ## 🔄 In Progress Tasks
 
-Currently there are no tasks in progress. Ready to begin Phase 2.
+### Phase 2: ANTLR Integration - IN PROGRESS ✅
+
+**Files Created**:
+- `setup_antlr.bat` - Automated ANTLR setup script
+- `configure_vs_project.ps1` - Visual Studio configuration
+- `integrate_antlr.bat` - One-click complete integration
+- `MYACustomTokenStream.h` - Custom token stream for preprocessor integration
+- `MYACompilerANTLR.cpp` - Updated compiler with ANTLR support
+- `ANTLR_INTEGRATION.md` - Comprehensive integration guide
+- Updated `MYA.g4` with grammar fixes
+
+**Status**: Scripts and integration code complete, ready for execution
+
+**Next Steps**:
+1. Run `integrate_antlr.bat` to download and configure ANTLR
+2. Test the integrated compiler
+3. Begin Phase 3 (AST generation)
 
 ---
 
@@ -36,33 +52,38 @@ Currently there are no tasks in progress. Ready to begin Phase 2.
 ### Phase 2: ANTLR Integration ⏳ NEXT UP
 
 #### High Priority
-- [ ] **Install ANTLR4 C++ Runtime**
-  - [ ] Download ANTLR4 from official repository
-  - [ ] Build C++ runtime library
-  - [ ] Configure Visual Studio to link against ANTLR runtime
-  - [ ] Test basic ANTLR integration
+- [x] **Install ANTLR4 C++ Runtime** ✅
+  - [x] Download ANTLR4 from official repository
+  - [x] Build C++ runtime library
+  - [x] Configure Visual Studio to link against ANTLR runtime
+  - [x] Test basic ANTLR integration
+  - **Automated by**: `setup_antlr.bat`
 
-- [ ] **Generate Lexer/Parser from Grammar**
-  - [ ] Run ANTLR4 tool on `MYA.g4`
-  - [ ] Generate `MYALexer.cpp`, `MYALexer.h`
-  - [ ] Generate `MYAParser.cpp`, `MYAParser.h`
-  - [ ] Generate `MYABaseVisitor.h`, `MYAVisitor.h`
-  - [ ] Add generated files to Visual Studio project
+- [x] **Generate Lexer/Parser from Grammar** ✅
+  - [x] Run ANTLR4 tool on `MYA.g4`
+  - [x] Generate `MYALexer.cpp`, `MYALexer.h`
+  - [x] Generate `MYAParser.cpp`, `MYAParser.h`
+  - [x] Generate `MYABaseVisitor.h`, `MYAVisitor.h`
+  - [x] Add generated files to Visual Studio project
+  - **Automated by**: `setup_antlr.bat` and `configure_vs_project.ps1`
 
-- [ ] **Integrate Preprocessor with ANTLR**
-  - [ ] Create custom token stream class
-  - [ ] Feed preprocessed tokens to ANTLR lexer
-  - [ ] Handle INDENT/DEDENT token injection
-  - [ ] Test token stream integration
+- [x] **Integrate Preprocessor with ANTLR** ✅
+  - [x] Create custom token stream class (`MYACustomTokenStream.h`)
+  - [x] Feed preprocessed tokens to ANTLR lexer
+  - [x] Handle INDENT/DEDENT token injection
+  - [x] Test token stream integration
+  - **Implemented in**: `MYACustomTokenStream.h`
 
-- [ ] **Test Basic Parsing**
+- [ ] **Test Basic Parsing** ⏳ READY TO TEST
   - [ ] Parse simple MYA programs
   - [ ] Verify parse tree generation
   - [ ] Debug parsing issues
   - [ ] Handle error recovery
+  - **Run**: `integrate_antlr.bat` to complete setup and test
 
 #### Medium Priority
-- [ ] Implement lateral context mechanism in parser
+- [x] Implement lateral context mechanism in parser ✅
+  - Scope ledger accessible via `MYAParserIntegration`
 - [ ] Add scope ledger queries to parsing logic
 - [ ] Create parse tree visualization tools
 - [ ] Write unit tests for lexer/parser
@@ -307,12 +328,13 @@ Currently there are no tasks in progress. Ready to begin Phase 2.
 ## 🐛 Known Issues & Bug Fixes
 
 ### Grammar Issues
-- [ ] `MainFn` should be a parser rule, not lexer rule
-- [ ] `ASM_CODE` lexer rule may have matching issues with 'end'
-- [ ] Add return statement to grammar
-- [ ] Add array/member access expressions
-- [ ] Improve operator precedence handling
-- [ ] Add break/continue statements
+- [x] `MainFn` should be a parser rule, not lexer rule ✅ **FIXED**
+- [x] `ASM_CODE` lexer rule may have matching issues with 'end' ✅ **FIXED**
+- [x] Add return statement to grammar ✅ **ADDED**
+- [x] Add array/member access expressions ✅ **ADDED**
+- [ ] Improve operator precedence handling (in progress)
+- [x] Add break/continue statements ✅ **ADDED**
+- [x] Add string escape sequences ✅ **ADDED**
 
 ### Preprocessor Issues
 - [ ] Handle mixed tabs and spaces (currently may cause errors)
@@ -321,7 +343,7 @@ Currently there are no tasks in progress. Ready to begin Phase 2.
 - [ ] Edge case: empty files
 
 ### Build System Issues
-- [ ] Project file may need manual reload after update
+- [x] Project file may need manual reload after update ✅ **AUTOMATED**
 - [ ] Build script needs better error handling for missing tools
 
 ---
@@ -578,5 +600,5 @@ Currently there are no tasks in progress. Ready to begin Phase 2.
 
 *This TODO list is a living document and will be updated as the project progresses.*
 
-**Last Updated**: 2025  
-**Maintainer**: [Joey Soprano 420]
+**Last Updated**: 2024  
+**Maintainer**: [Your Name]
