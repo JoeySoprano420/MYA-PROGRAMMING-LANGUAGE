@@ -15,7 +15,7 @@ if %ERRORLEVEL% NEQ 0 (
     echo [ERROR] Java not found!
     echo Please install Java JDK 8+ from: https://www.oracle.com/java/technologies/downloads/
     pause
- exit /b 1
+    exit /b 1
 )
 echo [OK] Java found
 
@@ -79,18 +79,35 @@ if %ERRORLEVEL% NEQ 0 (
 
 echo.
 echo ========================================
-echo Step 3: Building Project
+echo Step 3: Switching to ANTLR Compiler
+echo ========================================
+echo Activating MYACompilerANTLR.cpp...
+call enable_antlr_compiler.bat
+if %ERRORLEVEL% NEQ 0 (
+echo [WARNING] Could not switch compilers automatically
+    echo Please exclude MYACompiler.cpp and include MYACompilerANTLR.cpp manually
+)
+
+echo.
+echo ========================================
+echo Step 4: Building Project
 echo ========================================
 call build.bat release x64
 if %ERRORLEVEL% NEQ 0 (
     echo [ERROR] Build failed!
+    echo.
+    echo Troubleshooting:
+    echo 1. Make sure MYACompiler.cpp is excluded from build
+    echo 2. Make sure MYACompilerANTLR.cpp is included in build
+    echo 3. Check that generated files are in the project
+    echo.
     pause
     exit /b 1
 )
 
 echo.
 echo ========================================
-echo Step 4: Running Tests
+echo Step 5: Running Tests
 echo ========================================
 x64\Release\MYACompiler.exe --test --ast
 if %ERRORLEVEL% NEQ 0 (
