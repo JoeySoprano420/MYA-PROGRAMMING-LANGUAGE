@@ -5,25 +5,28 @@ grammar MYA;
 // ----------------------------
 
 program
-    : (statement | functionDef | structDef | renderBlock | asmBlock)* EOF
+    : (mainFn | statement | functionDef | structDef | renderBlock | asmBlock)* EOF
     ;
 
 statement
     : variableDecl
     | assignment
     | conditional
-  | loop
+    | loop
     | filterPass
     | printStmt
+    | returnStmt
+    | breakStmt
+    | continueStmt
     | callExpr
     | freeStmt
-    ;
+;
 
 // ----------------------------
 //  CORE LANGUAGE CONSTRUCTS
 // ----------------------------
 
-MainFn
+mainFn
     : 'Main' '(' ')' 'fn' ':' block
     ;
 
@@ -36,7 +39,7 @@ paramList
     ;
 
 param
-    : Identifier ':' typeName
+: Identifier ':' typeName
     ;
 
 returnType
@@ -48,11 +51,23 @@ variableDecl
     ;
 
 assignment
-: Identifier '=' expression ';'
+    : Identifier '=' expression ';'
     ;
 
 freeStmt
     : 'free' Identifier ';'
+    ;
+
+returnStmt
+    : 'return' expression? ';'
+    ;
+
+breakStmt
+    : 'break' ';'
+    ;
+
+continueStmt
+    : 'continue' ';'
     ;
 
 // ----------------------------
@@ -72,7 +87,7 @@ loop
 // ----------------------------
 
 filterPass
-    : 'filter' expression ( 'pass' expression )? ';'?
+    : 'filter' expression ( 'pass' (':' block)? )? ';'?
     ;
 
 // ----------------------------
@@ -81,7 +96,7 @@ filterPass
 
 printStmt
     : 'print' expression (',' expression)* ';'
-    ;
+ ;
 
 // ----------------------------
 //  STRUCTURES
@@ -100,7 +115,11 @@ structBody
 // ----------------------------
 
 asmBlock
-    : 'asm' ':' ASM_CODE* 'end'
+    : 'asm' ':' asmBody 'end'
+    ;
+
+asmBody
+    : (~'end')*?
     ;
 
 // ----------------------------
@@ -112,11 +131,11 @@ renderBlock
     ;
 
 renderBody
-  : (renderStatement | renderBlock)*
+    : (renderStatement | renderBlock)*
     ;
 
 renderStatement
-: Identifier (':' expression)? ';'?
+    : Identifier (':' expression)? ';'?
     ;
 
 // ----------------------------
@@ -124,12 +143,14 @@ renderStatement
 // ----------------------------
 
 expression
-    : literal      # literalExpr
-    | Identifier        # identifierExpr
-    | callExpr          # callExpression
+  : literal        # literalExpr
+    | Identifier       # identifierExpr
+    | callExpr # callExpression
+    | expression '[' expression ']'         # arrayAccess
+    | expression '.' Identifier        # memberAccess
     | expression operator expression        # binaryExpression
-    | operator expression     # unaryExpression
-    | '(' expression ')'           # groupExpression
+    | operator expression              # unaryExpression
+    | '(' expression ')'            # groupExpression
     ;
 
 callExpr
@@ -142,9 +163,9 @@ callExpr
 
 operator
     : '+' | '-' | '*' | '/' | '%' 
-    | '==' | '!=' | '<' | '>' | '<=' | '>='
+ | '==' | '!=' | '<' | '>' | '<=' | '>='
     | 'and' | 'or' | 'not'
-    ;
+   ;
 
 // ----------------------------
 //  BLOCKS
@@ -162,7 +183,7 @@ literal
     : String
     | Number
     | Boolean
-  ;
+    ;
 
 typeName
     : 'int' | 'float' | 'str' | 'bool' | 'list' | 'map' | 'tuple' | 'any'
@@ -177,7 +198,11 @@ Boolean
     ;
 
 String
-    : '"' (~["\r\n])* '"'
+  : '"' (ESC | ~["\\\r\n])* '"'
+    ;
+
+fragment ESC
+ : '\\' ['"\\nrt]
     ;
 
 Number
@@ -205,14 +230,6 @@ INDENT  : '<INDENT>';   // To be handled in a custom listener/tokenizer
 DEDENT  : '<DEDENT>';
 NEWLINE : [\r\n]+ -> skip;
 WS      : [ \t]+ -> skip;
-
-// ----------------------------
-//  ASM CAPTURE
-// ----------------------------
-
-ASM_CODE
-    : ~('end')+ 
-    ;
 
 // ----------------------------
 //  END OF FILE
