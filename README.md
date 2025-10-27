@@ -1,4 +1,10 @@
-# MYA-PROGRAMMING-LANGUAGE
+ __  ____   _____ 
+|  \/  \ \ / /   |
+| |\/| |\ V / /| |
+| |  | | | | ___ |
+|_|  |_| |_|_|  |_|
+
+"Where code assembles itself, one lateral thought at a time."
 
 # MYA Language Compiler
 
