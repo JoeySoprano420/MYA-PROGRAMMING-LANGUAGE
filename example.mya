@@ -1,0 +1,261 @@
+$ MYA Language Example Program
+$ Demonstrates all major language features
+$ File: example.mya
+
+$$ 
+Multi-line comment block
+This program showcases:
+- Functions and Main entry point
+- Variables and types
+- Control flow (if/for)
+- Error handling (filter/pass)
+- Structures
+- Render blocks
+- Assembly blocks
+$$
+
+$ Main entry point
+Main() fn:
+    print "=== MYA Language Demo ===";
+    
+    $ Basic variables
+    let x: int = 10;
+    let y: int = 20;
+    let name: str = "MYA Compiler";
+    
+    print "Language:", name;
+    print "Version: 0.1";
+    
+    $ Function calls
+    let sum: int = add(x, y);
+    let product: int = multiply(x, y);
+    
+    print "Sum:", sum;
+    print "Product:", product;
+    
+    $ Control flow - conditionals
+    if sum > 20:
+        print "Sum is greater than 20";
+    else:
+        print "Sum is less than or equal to 20";
+    
+$ Control flow - loops
+    print "Counting from 0 to 5:";
+    for i in range 0 to 5:
+        print "  Iteration", i;
+        
+        if i == 3:
+            print "    Halfway there!";
+    
+    $ Error handling with filter/pass
+    let divisor: int = 0;
+    filter divisor != 0 pass:
+        let result: int = divide(100, divisor);
+        print "100 / divisor =", result;
+    
+    $ Call factorial function
+    let n: int = 5;
+    let fact: int = factorial(n);
+    print "Factorial of", n, "is", fact;
+    
+    $ Create and use a structure
+    let point: Point = Point(10, 20, 30);
+    print "Point created at:", point.x, point.y, point.z;
+    
+    $ Render a simple scene
+    renderScene();
+    
+    $ Call assembly function
+    let asmResult: int = asmFunction();
+    print "Assembly function returned:", asmResult;
+    
+    print "=== Demo Complete ===";
+
+$ Function definitions
+
+fn add(a: int, b: int) -> int:
+    let result: int = a + b;
+    return result;
+
+fn multiply(a: int, b: int) -> int:
+    let result: int = a * b;
+    return result;
+
+fn divide(a: int, b: int) -> int:
+    $ Error handling for division by zero
+    filter b == 0 pass:
+        print "Error: Division by zero";
+        return 0;
+    
+  let result: int = a / b;
+    return result;
+
+fn factorial(n: int) -> int:
+    $ Base case
+    filter n <= 1 pass:
+        return 1;
+    
+    $ Recursive case
+    let prev: int = factorial(n - 1);
+    return n * prev;
+
+fn isPrime(n: int) -> bool:
+    filter n <= 1 pass:
+        return false;
+    
+    filter n == 2 pass:
+     return true;
+    
+    for i in range 2 to n:
+        let remainder: int = n % i;
+        if remainder == 0:
+     return false;
+    
+    return true;
+
+fn renderScene() -> any:
+    print "Rendering 3D scene...";
+    
+    $ This would integrate with the render block
+    $ For now, just a placeholder
+    
+    return 0;
+
+fn asmFunction() -> int:
+    $ This function contains inline assembly
+    $ Would integrate with the asm block
+ 
+    print "Executing assembly code...";
+    return 42;
+
+$ Structure definitions
+
+struct Point:
+    x: int
+    y: int
+    z: int
+end
+
+struct Vector3:
+    x: float
+    y: float
+    z: float
+end
+
+struct Color:
+    r: int
+    g: int
+    b: int
+    a: int
+end
+
+struct Camera:
+    position: Vector3
+    target: Vector3
+    fov: float
+end
+
+$ Render block for virtual rendering layer
+
+render:
+    viewport: 1920x1080
+    
+    camera:
+position: 0, 5, 10
+        target: 0, 0, 0
+        fov: 75.0
+    
+ lighting:
+        ambient: 0.2, 0.2, 0.2
+        directional:
+            direction: -1, -1, -1
+            intensity: 1.0
+    
+    object: cube
+        position: 0, 0, 0
+        rotation: 0, 45, 0
+    scale: 1, 1, 1
+color: 255, 100, 50, 255
+    
+    object: sphere
+ position: 3, 0, 0
+        radius: 1.5
+        color: 50, 100, 255, 255
+    
+object: plane
+        position: 0, -2, 0
+  normal: 0, 1, 0
+        size: 10, 10
+        color: 128, 128, 128, 255
+end
+
+$ Assembly block for low-level operations
+
+asm:
+    $ This is inline assembly
+    $ Syntax depends on target architecture (x86-64 NASM in this case)
+    
+    push rbp
+    mov rbp, rsp
+  
+    mov rax, 42     $ Return value
+    
+    mov rsp, rbp
+    pop rbp
+    ret
+end
+
+$ Advanced features demonstration
+
+fn fibonacci(n: int) -> int:
+    $ Iterative fibonacci for efficiency
+    
+  filter n <= 0 pass:
+      return 0;
+    
+    filter n == 1 pass:
+      return 1;
+    
+    let a: int = 0;
+    let b: int = 1;
+    let temp: int = 0;
+    
+    for i in range 2 to n:
+     let temp: int = a + b;
+        let a: int = b;
+      let b: int = temp;
+    
+    return b;
+
+fn bubbleSort(arr: list, size: int) -> list:
+    $ Bubble sort implementation
+    
+    for i in range 0 to size:
+        for j in range 0 to size:
+     filter i < j pass:
+        $ Compare and swap
+      filter arr[i] > arr[j] pass:
+               let temp: int = arr[i];
+         let arr[i]: int = arr[j];
+     let arr[j]: int = temp;
+    
+    return arr;
+
+fn matrixMultiply(a: list, b: list, rows: int, cols: int) -> list:
+$ Matrix multiplication
+    $ Assumes square matrices for simplicity
+    
+    let result: list = createMatrix(rows, cols);
+    
+    for i in range 0 to rows:
+        for j in range 0 to cols:
+         let sum: int = 0;
+     
+            for k in range 0 to cols:
+   let sum: int = sum + a[i][k] * b[k][j];
+            
+   let result[i][j]: int = sum;
+    
+    return result;
+
+$ End of example program
